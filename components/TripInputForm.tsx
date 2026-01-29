@@ -128,7 +128,7 @@ export default function TripInputForm({
         className={`rounded-xl py-4 px-6 flex-row items-center justify-center mb-4 ${
           loading
             ? "bg-gray-400"
-            : "bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg"
+            : "bg-primary-500 shadow-lg shadow-primary-200"
         }`}
         onPress={onPlanTrip}
         disabled={loading}

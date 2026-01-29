@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function TripHeader() {
@@ -9,7 +9,7 @@ export default function TripHeader() {
         <MaterialCommunityIcons
           name="compass"
           size={40}
-          color="#7C3AED"
+          color="#0FA4E9"
         />
       </View>
 
@@ -17,7 +17,7 @@ export default function TripHeader() {
         Explore Sri Lanka
       </Text>
 
-      <Text className="text-base text-center text-purple-600 font-medium">
+      <Text className="text-base text-center text-primary-600 font-medium">
         Plan your perfect getaway
       </Text>
 
