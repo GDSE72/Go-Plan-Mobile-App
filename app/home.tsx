@@ -10,7 +10,10 @@ import {
 } from "react-native";
 import { db } from "../firebaseConfig";
 import "../global.css";
-import { generateTravelPlan } from "../services/aiService";
+import {
+  generateTravelPlan,
+  resolveDestinationNames,
+} from "../services/aiService";
 import { TravelData, TravelPlan } from "../types";
 
 import EmptyState from "../components/EmptyState";
@@ -36,14 +39,18 @@ export default function App() {
 
     setLoading(true);
     setTravelPlan(null);
-    setStatus("Searching local database...");
+    setStatus("Analyzing destination names...");
 
     try {
-      const destArray = destinations
-        .split(",")
-        .map((d) => d.trim())
-        .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase())
+      // 1. Resolve/Correct names using AI (e.g. "Mathara" -> "Matara")
+      const rawDestinations = destinations.split(",").map((d) => d.trim());
+      const correctedNames = await resolveDestinationNames(rawDestinations);
+
+      const destArray = correctedNames
+        .map((d) => d.charAt(0).toUpperCase() + d.slice(1).toLowerCase()) // Correct casing
         .slice(0, 10);
+
+      setStatus(`Searching database for: ${destArray.join(", ")}...`);
 
       const q = query(
         collection(db, "travel_data"),
@@ -68,10 +75,13 @@ export default function App() {
           Address: data.Address,
           District: data.District,
           Grade: data.Grade || "Standard",
+          image_urls: data.image_urls || [],
         };
       });
 
-      setStatus(`Found ${contextData.length} spots. Generating your itinerary...`);
+      setStatus(
+        `Found ${contextData.length} spots. Generating your itinerary...`,
+      );
 
       const plan = await generateTravelPlan(
         budget,
@@ -82,7 +92,10 @@ export default function App() {
 
       if (plan) {
         setStatus("");
-        router.push({ pathname: "/trip-details", params: { plan: JSON.stringify(plan) } });
+        router.push({
+          pathname: "/trip-details",
+          params: { plan: JSON.stringify(plan) },
+        });
       }
     } catch (e: any) {
       console.error("Error:", e);
