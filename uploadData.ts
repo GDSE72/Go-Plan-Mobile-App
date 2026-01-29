@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { doc, setDoc } from "firebase/firestore";
 import * as fs from 'fs';
 import * as path from 'path';
@@ -8,10 +9,12 @@ interface TravelDataItem {
   "Type": string | null;
   "Name": string;
   "Address": string | null;
-  "Grade": string | null;
+  "Grade"?: string | null;
   "District": string | null;
   "AGA Division": string | null;
   "PS/MC/UC": string | null;
+  "SourceFile"?: string;
+  "image_urls"?: string[];
 }
 
 // Function to sanitize document IDs (remove invalid characters)
@@ -23,7 +26,7 @@ async function upload(): Promise<void> {
   try {
     console.log("Starting upload...");
 
-    const filePath = path.join(__dirname, 'Travel_Data_1000.json');
+    const filePath = path.join(__dirname, 'All_Travel_Data_With_Images.json');
     const rawData = fs.readFileSync(filePath, 'utf-8');
     const travelData: TravelDataItem[] = JSON.parse(rawData);
 
