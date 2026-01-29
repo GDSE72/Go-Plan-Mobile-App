@@ -1,23 +1,24 @@
-import "../global.css"
+import { useRouter } from "expo-router";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import React, { useState } from "react";
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
   ScrollView,
-  Alert,
 } from "react-native";
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import "../global.css";
 import { generateTravelPlan } from "../services/aiService";
 import { TravelData, TravelPlan } from "../types";
 
+import EmptyState from "../components/EmptyState";
 import TripHeader from "../components/TripHeader";
 import TripInputForm from "../components/TripInputForm";
-import ResultsDisplay from "../components/ResultsDisplay";
-import EmptyState from "../components/EmptyState";
 
 export default function App() {
+  const router = useRouter();
   const [budget, setBudget] = useState<string>("");
   const [destinations, setDestinations] = useState<string>("Galle");
   const [days, setDays] = useState<string>("2");
@@ -80,8 +81,8 @@ export default function App() {
       );
 
       if (plan) {
-        setTravelPlan(plan);
         setStatus("");
+        router.push({ pathname: "/trip-details", params: { plan: JSON.stringify(plan) } });
       }
     } catch (e: any) {
       console.error("Error:", e);
@@ -117,14 +118,7 @@ export default function App() {
             onPlanTrip={handlePlanTrip}
           />
 
-          {travelPlan ? (
-            <ResultsDisplay
-              travelPlan={travelPlan}
-              onPlanAnother={() => setTravelPlan(null)}
-            />
-          ) : (
-            !loading && <EmptyState />
-          )}
+          {!loading && <EmptyState />}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
