@@ -1,4 +1,5 @@
 import { FirebaseApp, initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
 import { Functions, getFunctions } from 'firebase/functions';
 
@@ -12,6 +13,9 @@ export const firebaseConfig = {
 };
 
 const app: FirebaseApp = initializeApp(firebaseConfig);
+
+// Initialize Auth (Persistence handled automatically by default in newer SDKs or fallback to memory if needed)
+export const auth = getAuth(app);
 
 export const db: Firestore = getFirestore(app);
 export const functions: Functions = getFunctions(app);
