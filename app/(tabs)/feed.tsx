@@ -6,10 +6,10 @@ import {
   ActivityIndicator,
   Dimensions,
   FlatList,
-  SafeAreaView,
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { db } from "../../firebaseConfig";
 
 const { width } = Dimensions.get("window");

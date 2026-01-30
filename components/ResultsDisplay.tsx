@@ -19,7 +19,7 @@ export default function ResultsDisplay({
       {/* 1. Itinerary Summary Card */}
       <View className="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-gray-100">
         <View className="flex-row items-center mb-3">
-          <MaterialCommunityIcons name="sparkles" size={24} color="#0FA4E9" />
+          <MaterialCommunityIcons name="creation" size={24} color="#0FA4E9" />
           <Text className="text-xl font-bold text-gray-900 ml-2">
             Your Perfect Itinerary
           </Text>
