@@ -8,17 +8,17 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import { db } from "../firebaseConfig";
-import "../global.css";
+import { db } from "../../firebaseConfig";
+import "../../global.css";
 import {
   generateTravelPlan,
   resolveDestinationNames,
-} from "../services/aiService";
-import { TravelData, TravelPlan } from "../types";
+} from "../../services/aiService";
+import { TravelData, TravelPlan } from "../../types";
 
-import EmptyState from "../components/EmptyState";
-import TripHeader from "../components/TripHeader";
-import TripInputForm from "../components/TripInputForm";
+import EmptyState from "../../components/EmptyState";
+import TripHeader from "../../components/TripHeader";
+import TripInputForm from "../../components/TripInputForm";
 
 export default function App() {
   const router = useRouter();
