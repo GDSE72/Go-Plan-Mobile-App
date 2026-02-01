@@ -19,7 +19,7 @@ export default function ResultsDisplay({
       {/* 1. Itinerary Summary Card */}
       <View className="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-gray-100">
         <View className="flex-row items-center mb-3">
-          <MaterialCommunityIcons name="creation" size={24} color="#0FA4E9" />
+          <MaterialCommunityIcons name="creation" size={24} color="#0D9488" />
           <Text className="text-xl font-bold text-gray-900 ml-2">
             Your Perfect Itinerary
           </Text>
@@ -38,11 +38,11 @@ export default function ResultsDisplay({
         <View className="flex-col gap-4">
           {/* Budget Card */}
           <View className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex-row items-center">
-            <View className="bg-primary-50 rounded-full p-3 mr-4">
+            <View className="bg-teal-50 rounded-full p-3 mr-4">
               <MaterialCommunityIcons
                 name="wallet-outline"
                 size={24}
-                color="#0FA4E9"
+                color="#0D9488"
               />
             </View>
             <View className="flex-1">
@@ -57,11 +57,11 @@ export default function ResultsDisplay({
 
           {/* Transport Card */}
           <View className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex-row items-center">
-            <View className="bg-primary-50 rounded-full p-3 mr-4">
+            <View className="bg-teal-50 rounded-full p-3 mr-4">
               <MaterialCommunityIcons
                 name="car-side"
                 size={24}
-                color="#0FA4E9"
+                color="#0D9488"
               />
             </View>
             <View className="flex-1">
@@ -98,8 +98,8 @@ export default function ResultsDisplay({
 
             {/* Day Header */}
             <View className="flex-row items-center mb-4 pb-4 border-b border-gray-100">
-              <View className="bg-primary-100 px-4 py-2 rounded-xl items-center justify-center">
-                <Text className="text-primary-700 font-bold text-base">
+              <View className="bg-teal-100 px-4 py-2 rounded-xl items-center justify-center">
+                <Text className="text-teal-700 font-bold text-base">
                   Day {day.day}
                 </Text>
               </View>
@@ -152,17 +152,17 @@ export default function ResultsDisplay({
 
       {/* 4. Action Button */}
       <TouchableOpacity
-        className="bg-white border-2 border-primary-500 rounded-xl py-4 flex-row items-center justify-center mb-10"
+        className="bg-white border-2 border-teal-500 rounded-xl py-4 flex-row items-center justify-center mb-10"
         onPress={onPlanAnother}
         activeOpacity={0.7}
       >
         <MaterialCommunityIcons
           name="refresh"
           size={22}
-          color="#0FA4E9"
+          color="#0D9488"
           style={{ marginRight: 8 }}
         />
-        <Text className="text-primary-600 font-bold text-base">
+        <Text className="text-teal-600 font-bold text-base">
           Plan Another Trip
         </Text>
       </TouchableOpacity>

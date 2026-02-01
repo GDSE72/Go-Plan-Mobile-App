@@ -56,7 +56,7 @@ const Profile = () => {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center bg-white">
-        <ActivityIndicator size="large" color="#0FA4E9" />
+        <ActivityIndicator size="large" color="#0D9488" />
       </View>
     );
   }
@@ -67,8 +67,8 @@ const Profile = () => {
         <Text className="text-3xl font-bold text-gray-900 mb-8">Profile</Text>
 
         <View className="items-center mb-10">
-          <View className="w-24 h-24 bg-primary-100 rounded-full items-center justify-center mb-4">
-            <Text className="text-4xl font-bold text-primary-600">
+          <View className="w-24 h-24 bg-teal-100 rounded-full items-center justify-center mb-4">
+            <Text className="text-4xl font-bold text-teal-600">
               {userData?.name?.charAt(0).toUpperCase() || "U"}
             </Text>
           </View>

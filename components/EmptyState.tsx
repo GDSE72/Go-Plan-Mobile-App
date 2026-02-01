@@ -5,12 +5,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 export default function EmptyState() {
   return (
     <View className="items-center justify-center py-20">
-      <View className="bg-primary-50 w-24 h-24 rounded-3xl items-center justify-center mb-6 border border-primary-200">
-        <MaterialCommunityIcons
-          name="map-search"
-          size={56}
-          color="#0FA4E9"
-        />
+      <View className="bg-teal-50 w-24 h-24 rounded-3xl items-center justify-center mb-6 border border-teal-200">
+        <MaterialCommunityIcons name="map-search" size={56} color="#0D9488" />
       </View>
       <Text className="text-lg font-bold text-gray-900 text-center mb-2">
         Ready to Explore?

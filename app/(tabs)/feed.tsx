@@ -96,7 +96,7 @@ export default function Feed() {
 
       {loading ? (
         <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#0FA4E9" />
+          <ActivityIndicator size="large" color="#0D9488" />
         </View>
       ) : (
         <FlatList

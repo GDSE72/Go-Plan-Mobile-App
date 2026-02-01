@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -16,8 +16,8 @@ import {
 } from "../../services/aiService";
 import { TravelData, TravelPlan } from "../../types";
 
-import EmptyState from "../../components/EmptyState";
-import TripHeader from "../../components/TripHeader";
+import FeaturedDestinations from "../../components/FeaturedDestinations";
+import HomeHeader from "../../components/HomeHeader";
 import TripInputForm from "../../components/TripInputForm";
 
 export default function App() {
@@ -76,6 +76,9 @@ export default function App() {
           District: data.District,
           Grade: data.Grade || "Standard",
           image_urls: data.image_urls || [],
+          "AGA Division": data["AGA Division"],
+          "PS/MC/UC": data["PS/MC/UC"],
+          SourceFile: data.SourceFile,
         };
       });
 
@@ -97,8 +100,9 @@ export default function App() {
           params: { plan: JSON.stringify(plan) },
         });
       }
-    } catch (e: any) {
-      console.error("Error:", e);
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : "Unknown error";
+      console.error("Error:", errorMessage);
       Alert.alert("Planning Failed", "Could not connect to the AI service.");
     } finally {
       setLoading(false);
@@ -106,16 +110,16 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gradient-to-b from-blue-50 via-purple-50 to-pink-50">
+    <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 40 }}
+          contentContainerStyle={{ paddingBottom: 100 }}
         >
-          <TripHeader />
+          <HomeHeader />
 
           <TripInputForm
             budget={budget}
@@ -131,7 +135,7 @@ export default function App() {
             onPlanTrip={handlePlanTrip}
           />
 
-          {!loading && <EmptyState />}
+          <FeaturedDestinations />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

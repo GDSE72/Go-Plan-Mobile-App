@@ -23,6 +23,8 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
@@ -80,9 +82,9 @@ export default function Signup() {
           className="px-6"
         >
           <View className="items-center mb-8">
-            <View className="bg-primary-50 p-4 rounded-full mb-6 relative">
-              <View className="absolute inset-0 bg-primary-200 rounded-full opacity-20 transform scale-125" />
-              <Ionicons name="person-add" size={32} color="#0FA4E9" />
+            <View className="bg-teal-50 p-4 rounded-full mb-6 relative">
+              <View className="absolute inset-0 bg-teal-200 rounded-full opacity-20 transform scale-125" />
+              <Ionicons name="person-add" size={32} color="#0D9488" />
             </View>
             <Text className="text-3xl font-bold text-gray-900 tracking-tight">
               Create Account
@@ -100,11 +102,15 @@ export default function Signup() {
               <View className="flex-row items-center bg-gray-50 border border-gray-100 rounded-2xl px-4 h-14">
                 <Ionicons name="person-outline" size={20} color="#94A3B8" />
                 <TextInput
-                  className="flex-1 ml-3 text-gray-900 font-medium"
+                  className="flex-1 ml-3 text-gray-900 font-medium h-full py-0"
                   placeholder="John Doe"
                   placeholderTextColor="#94A3B8"
                   value={name}
                   onChangeText={setName}
+                  cursorColor="#0D9488"
+                  selectionColor="#0D9488"
+                  caretHidden={false}
+                  textAlignVertical="center"
                 />
               </View>
             </View>
@@ -116,13 +122,17 @@ export default function Signup() {
               <View className="flex-row items-center bg-gray-50 border border-gray-100 rounded-2xl px-4 h-14">
                 <Ionicons name="mail-outline" size={20} color="#94A3B8" />
                 <TextInput
-                  className="flex-1 ml-3 text-gray-900 font-medium"
+                  className="flex-1 ml-3 text-gray-900 font-medium h-full py-0"
                   placeholder="name@example.com"
                   placeholderTextColor="#94A3B8"
                   keyboardType="email-address"
                   autoCapitalize="none"
                   value={email}
                   onChangeText={setEmail}
+                  cursorColor="#0D9488"
+                  selectionColor="#0D9488"
+                  caretHidden={false}
+                  textAlignVertical="center"
                 />
               </View>
             </View>
@@ -138,13 +148,26 @@ export default function Signup() {
                   color="#94A3B8"
                 />
                 <TextInput
-                  className="flex-1 ml-3 text-gray-900 font-medium"
+                  className="flex-1 ml-3 text-gray-900 font-medium h-full py-0"
                   placeholder="Create a password"
                   placeholderTextColor="#94A3B8"
-                  secureTextEntry
+                  secureTextEntry={!showPassword}
                   value={password}
                   onChangeText={setPassword}
+                  cursorColor="#0D9488"
+                  selectionColor="#0D9488"
+                  caretHidden={false}
+                  textAlignVertical="center"
                 />
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <Ionicons
+                    name={showPassword ? "eye-outline" : "eye-off-outline"}
+                    size={20}
+                    color="#94A3B8"
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -159,18 +182,33 @@ export default function Signup() {
                   color="#94A3B8"
                 />
                 <TextInput
-                  className="flex-1 ml-3 text-gray-900 font-medium"
+                  className="flex-1 ml-3 text-gray-900 font-medium h-full py-0"
                   placeholder="Confirm your password"
                   placeholderTextColor="#94A3B8"
-                  secureTextEntry
+                  secureTextEntry={!showConfirmPassword}
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}
+                  cursorColor="#0D9488"
+                  selectionColor="#0D9488"
+                  caretHidden={false}
+                  textAlignVertical="center"
                 />
+                <TouchableOpacity
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <Ionicons
+                    name={
+                      showConfirmPassword ? "eye-outline" : "eye-off-outline"
+                    }
+                    size={20}
+                    color="#94A3B8"
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 
             <TouchableOpacity
-              className="bg-primary-500 h-14 rounded-2xl items-center justify-center shadow-lg shadow-primary-200 mt-4"
+              className="bg-teal-600 h-14 rounded-2xl items-center justify-center shadow-lg shadow-teal-200 mt-4"
               activeOpacity={0.8}
               onPress={handleSignup}
               disabled={loading}
@@ -189,7 +227,7 @@ export default function Signup() {
             <Text className="text-gray-500">Already have an account? </Text>
             <Link href="/login" asChild>
               <TouchableOpacity>
-                <Text className="text-primary-600 font-bold">Sign In</Text>
+                <Text className="text-teal-600 font-bold">Sign In</Text>
               </TouchableOpacity>
             </Link>
           </View>
