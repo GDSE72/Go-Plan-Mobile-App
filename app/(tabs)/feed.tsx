@@ -7,6 +7,7 @@ import {
   Dimensions,
   FlatList,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,6 +18,7 @@ const COLUMN_WIDTH = width / 2 - 24; // 2 columns with padding
 
 interface FeedItem {
   id: string;
+  uniqueId: string; // Unique key for FlatList
   url: string;
   name: string;
   district: string;
@@ -33,7 +35,7 @@ export default function Feed() {
 
   const fetchFeedData = async () => {
     try {
-      const q = query(collection(db, "travel_data"), limit(50));
+      const q = query(collection(db, "sri_lanka_travel_data"), limit(50));
 
       const snapshot = await getDocs(q);
       const feedItems: FeedItem[] = [];
@@ -44,13 +46,17 @@ export default function Feed() {
           // Flatten: One item per image
           item.image_urls.forEach((url: string, index: number) => {
             feedItems.push({
-              id: item.Name + index,
+              id: doc.id, // Use document ID specifically for navigation query
+              uniqueId: `${doc.id}-${index}`,
               url: url,
               name: item.Name,
               district: item.District || "Sri Lanka",
             });
           });
         }
+        // Also handle if no images but has a name (fallback image handled in render or logic)
+        // For feed, we generally want images, so strictly push if images exist or push with placeholder?
+        // Let's stick to existing logic but fix the ID mapping.
       });
 
       // Shuffle using modern random sort (Schwartzian transform approximation for simple use case)
@@ -68,9 +74,16 @@ export default function Feed() {
   };
 
   const renderItem = ({ item }: { item: FeedItem }) => (
-    <View
+    <TouchableOpacity
       className="mb-4 bg-white rounded-2xl shadow-sm overflow-hidden"
       style={{ width: COLUMN_WIDTH, height: COLUMN_WIDTH * 1.5 }} // Taller aspect for photos
+      onPress={() =>
+        router.push(
+          `/destination-details/${item.id}?mainImage=${encodeURIComponent(
+            item.url,
+          )}` as any,
+        )
+      }
     >
       <Image
         source={{ uri: item.url }}
@@ -84,7 +97,7 @@ export default function Feed() {
           {item.name}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -102,7 +115,7 @@ export default function Feed() {
         <FlatList
           data={data}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.uniqueId}
           numColumns={2}
           columnWrapperStyle={{
             justifyContent: "space-between",

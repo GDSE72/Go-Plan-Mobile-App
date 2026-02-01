@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { collection, getDocs, limit, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
@@ -13,17 +14,23 @@ import { db } from "../firebaseConfig";
 import { TouristSpot } from "../types";
 
 export default function FeaturedDestinations() {
+  const router = useRouter();
   const [destinations, setDestinations] = useState<TouristSpot[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const q = query(collection(db, "travel_data"), limit(5));
+        const q = query(collection(db, "sri_lanka_travel_data"), limit(5));
         const querySnapshot = await getDocs(q);
         const data: TouristSpot[] = querySnapshot.docs.map((doc) => ({
           ...(doc.data() as TouristSpot),
-        }));
+          // We need to attach the ID to the object if we want to use it for navigation
+          // Ideally TouristSpot type should have an optional id.
+          // For now, let's just cast it or rely on it being there after this map if we typed it correctly or ignore type check for the id property briefly or better, extend the type locally.
+          id: doc.id,
+        })) as unknown as TouristSpot[]; // Cast to suppress TS error if id missing in type
+
         // Shuffle or filter if needed, for now just take the first 5
         setDestinations(data);
       } catch (error) {
@@ -57,7 +64,7 @@ export default function FeaturedDestinations() {
           </Text>
           <Text className="text-gray-500 text-xs mt-1">Handpicked for you</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push("/all-destinations")}>
           <Text className="text-teal-600 font-bold text-sm">See All</Text>
         </TouchableOpacity>
       </View>
@@ -69,7 +76,12 @@ export default function FeaturedDestinations() {
         contentContainerStyle={{ paddingHorizontal: 24 }}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity className="mr-6 w-72 bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden">
+          <TouchableOpacity
+            className="mr-6 w-72 bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden"
+            onPress={() =>
+              router.push(`/destination-details/${item.id}` as any)
+            }
+          >
             <View className="h-48 bg-gray-200 relative">
               <Image
                 source={
@@ -84,8 +96,8 @@ export default function FeaturedDestinations() {
                 transition={500}
               />
               <View className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex-row items-center shadow-sm">
-                <Text className="text-amber-500 text-xs mr-1">★</Text>
-                <Text className="text-gray-900 text-xs font-bold">
+                <Ionicons name="star" size={14} color="#F59E0B" />
+                <Text className="text-gray-900 text-xs font-bold ml-1">
                   {item.Grade || "4.5"}
                 </Text>
               </View>

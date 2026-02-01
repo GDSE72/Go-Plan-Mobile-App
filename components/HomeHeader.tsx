@@ -62,7 +62,7 @@ export default function HomeHeader() {
       <View>
         <Text className="text-gray-500 font-medium text-base">
           Hello,{" "}
-          <Text className="font-bold text-gray-900">{displayName} 👋</Text>
+          <Text className="font-bold text-gray-900">{displayName}</Text>
         </Text>
         <Text className="text-3xl font-bold text-gray-900 mt-1 leading-tight">
           Let's explore <Text className="text-teal-600">Sri Lanka!</Text>

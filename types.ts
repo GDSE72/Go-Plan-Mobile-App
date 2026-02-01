@@ -1,9 +1,14 @@
 // 1. Interface matching your Firestore Data exactly
 export interface TouristSpot {
+  id?: string; // Document ID from Firestore
   Name: string;
   Type: string | null;
+  Description?: string | null;
   Address: string | null;
   District: string | null;
+  City?: string | null;
+  Province?: string | null;
+  Category?: string; // Optional field used in AllDestinations
   Grade: string | null;  // Grade can be null in your data
   "AGA Division"?: string; // Optional: Has space in key
   "PS/MC/UC"?: string;     // Optional: Has special chars
