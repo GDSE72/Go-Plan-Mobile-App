@@ -128,7 +128,7 @@ export default function FeaturedDestinations() {
                 </Text>
                 <View className="bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-100">
                   <Text className="text-teal-700 text-xs font-semibold">
-                    Book Now
+                    View
                   </Text>
                 </View>
               </View>

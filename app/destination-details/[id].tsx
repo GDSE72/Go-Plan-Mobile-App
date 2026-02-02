@@ -168,9 +168,9 @@ export default function DestinationDetails() {
         <TouchableOpacity
           className="bg-teal-600 px-8 py-4 rounded-2xl shadow-lg shadow-teal-200"
           activeOpacity={0.8}
-          onPress={() => alert("Booking functionality coming soon!")}
+          onPress={() => alert("Added to your plan!")}
         >
-          <Text className="text-white font-bold text-lg">Book Now</Text>
+          <Text className="text-white font-bold text-lg">Add to Plan</Text>
         </TouchableOpacity>
       </View>
     </View>
