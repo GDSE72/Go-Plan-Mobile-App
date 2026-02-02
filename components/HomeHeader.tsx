@@ -3,8 +3,9 @@ import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { User } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native"; // Import View explicitly
+import { Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../firebaseConfig";
+import HeaderRain from "./HeaderRain";
 
 export default function HomeHeader() {
   const [user, setUser] = useState<User | null>(null);
@@ -61,7 +62,8 @@ export default function HomeHeader() {
       </View>
 
       {/* Styled Intro Box */}
-      <View className="bg-white p-5 rounded-[24px] shadow-sm border border-gray-100 mt-1">
+      <View className="bg-white p-5 rounded-[24px] shadow-sm border border-gray-100 mt-1 relative overflow-hidden">
+        <HeaderRain />
         <View className="flex-row justify-between items-start">
           <View>
             <Text className="text-gray-400 font-medium text-sm mb-1 uppercase tracking-wider">
