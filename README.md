@@ -62,33 +62,7 @@ Go-Plan is a smart travel companion app for exploring Sri Lanka. It combines a r
 
 ## 📸 Screenshots
 
-## 📸 Screenshots
-
-### Authentication
-
-|                                 Sign Up                                 |                                 Sign In                                 |
-| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
-| <img src="./assets/screenshots/signup.png" width="200" alt="Sign Up" /> | <img src="./assets/screenshots/signin.png" width="200" alt="Sign In" /> |
-
-### Discovery
-
-|                               Home (1)                                |                               Home (2)                                |                               Feed (1)                                |                               Feed (2)                                |                                    All Destinations                                    |
-| :-------------------------------------------------------------------: | :-------------------------------------------------------------------: | :-------------------------------------------------------------------: | :-------------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
-| <img src="./assets/screenshots/home1.png" width="160" alt="Home 1" /> | <img src="./assets/screenshots/home2.png" width="160" alt="Home 2" /> | <img src="./assets/screenshots/feed1.png" width="160" alt="Feed 1" /> | <img src="./assets/screenshots/feed2.png" width="160" alt="Feed 2" /> | <img src="./assets/screenshots/destinations.png" width="160" alt="All Destinations" /> |
-
-### Planning & Trips
-
-|                                Trip Plan                                |                              Trip Details (1)                               |                              Trip Details (2)                               |                                   Saved Trips                                    |
-| :---------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
-| <img src="./assets/screenshots/plan.png" width="180" alt="Trip Plan" /> | <img src="./assets/screenshots/details1.png" width="180" alt="Details 1" /> | <img src="./assets/screenshots/details2.png" width="180" alt="Details 2" /> | <img src="./assets/screenshots/saved_trips.png" width="180" alt="Saved Trips" /> |
-
-### User Profile
-
-|                                 Profile                                  |
-| :----------------------------------------------------------------------: |
-| <img src="./assets/screenshots/profile.png" width="200" alt="Profile" /> |
-
-_(Ensure your screenshots are named correctly in the `assets/screenshots` folder)_
+_Screenshots will be added soon._
 
 ## 🛠️ Data Management
 
