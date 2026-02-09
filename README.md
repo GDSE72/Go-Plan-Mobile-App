@@ -6,6 +6,7 @@ Go-Plan is a smart travel companion app for exploring Sri Lanka. It combines a r
 
 - **Explore Feed**: Discover beautiful destinations (Kandy, Galle, Ella, etc.) with curated images.
 - **AI Trip Planner**: Generate custom trip plans based on your preferences, budget, and duration.
+- **State Management**: Robust data handling using **Redux Toolkit** (caching feed, persisting auth state).
 - **User Authentication**: Secure login via Email and Google Sign-In (Firebase Auth).
 - **Rich Imagery**: Dynamic image sources ensuring every location has a relevant photo.
 - **Trip Details**: View detailed itineraries with maps, activities, and local tips.
@@ -47,14 +48,16 @@ Go-Plan is a smart travel companion app for exploring Sri Lanka. It combines a r
     EXPO_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
     ```
 
+    > **Note:** The `EXPO_PUBLIC_GEMINI_API_KEY` is crucial for the AI Trip Planner to function.
+
 4.  **Run the App:**
 
     ```bash
-    npx expo start
+    npx expo start -c
     ```
 
-    - Press `a` for Android.
-    - Press `w` for Web.
+    - Use `-c` to clear cache when changing environment variables.
+    - Press `a` for Android, `w` for Web.
     - Scan the QR code with Expo Go.
 
 ## 📸 Screenshots
@@ -68,9 +71,10 @@ _(Upload your screenshots to an `assets/screenshots` folder and update the paths
 
 ## 🛠️ Data Management
 
-This project uses Firestore for data storage.
+This project uses **Firebase Firestore** for data storage and **Redux** for state management.
 
-**Upload Data Scripts:**
+### Upload Data Scripts
+
 To seed the database with travel data and images:
 
 ```bash
@@ -81,13 +85,22 @@ node -r dotenv/config uploadData.js
 node -r dotenv/config uploadTripData.js
 ```
 
+### Automated Image Discovery
+
+To scan for city names in URLs and automatically assign images:
+
+```bash
+node harvestCityImages.js
+```
+
 ## 📂 Project Structure
 
 - `app/`: Expo Router pages and screens.
 - `components/`: Reusable UI components.
-- `processImages.ts`: Logic for matching images to cities (Exhaustive Exclusion).
+- `store/`: Redux configuration and slices (`auth`, `feed`, `trip`).
+- `services/`: AI and external service integrations.
 - `uploadData.ts` / `uploadTripData.ts`: Database seeding scripts.
 
 ---
 
-Built with ❤️ using Expo, React Native, Firebase, and Gemini AI.
+Built with ❤️ using Expo, React Native, Firebase, Redux, and Gemini AI.
