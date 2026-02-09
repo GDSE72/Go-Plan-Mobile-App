@@ -8,12 +8,14 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch } from "react-redux"; // Added
 import { db } from "../../firebaseConfig";
 import "../../global.css";
 import {
   generateTravelPlan,
   resolveDestinationNames,
 } from "../../services/aiService";
+import { setTripPlan } from "../../store/slices/tripSlice"; // Added
 import { TravelData, TravelPlan } from "../../types";
 
 import FeaturedDestinations from "../../components/FeaturedDestinations";
@@ -22,6 +24,7 @@ import TripInputForm from "../../components/TripInputForm";
 
 export default function App() {
   const router = useRouter();
+  const dispatch = useDispatch(); // Added
   const [budget, setBudget] = useState<string>("");
   const [destinations, setDestinations] = useState<string>("Galle");
   const [days, setDays] = useState<string>("2");
@@ -95,10 +98,8 @@ export default function App() {
 
       if (plan) {
         setStatus("");
-        router.push({
-          pathname: "/trip-details",
-          params: { plan: JSON.stringify(plan) },
-        });
+        dispatch(setTripPlan(plan));
+        router.push("/trip-details");
       }
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : "Unknown error";

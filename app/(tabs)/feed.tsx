@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { collection, getDocs, limit, query } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -12,34 +12,45 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebaseConfig";
+import { AppDispatch, RootState } from "../../store";
+import {
+  FeedItem,
+  fetchFeedFailure,
+  fetchFeedStart,
+  fetchFeedSuccess,
+} from "../../store/slices/feedSlice";
 
 const { width } = Dimensions.get("window");
 const COLUMN_WIDTH = width / 2 - 24; // 2 columns with padding
 
-interface FeedItem {
-  id: string;
-  uniqueId: string; // Unique key for FlatList
-  url: string;
-  name: string;
-  district: string;
-}
-
 export default function Feed() {
   const router = useRouter();
-  const [data, setData] = useState<FeedItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    items: data,
+    loading,
+    error,
+    lastFetched,
+  } = useSelector((state: RootState) => state.feed);
 
   useEffect(() => {
-    fetchFeedData();
-  }, []);
+    // Cache strategy: only fetch if empty or it's been a while (e.g. 5 minutes)
+    const fiveMinutes = 5 * 60 * 1000;
+    const isStale = !lastFetched || Date.now() - lastFetched > fiveMinutes;
+
+    if (data.length === 0 || isStale) {
+      fetchFeedData();
+    }
+  }, [data.length, lastFetched]);
 
   const fetchFeedData = async () => {
+    dispatch(fetchFeedStart());
     try {
       const q = query(collection(db, "sri_lanka_travel_data"), limit(50));
 
-      console.log("Fetching feed data...");
-      // Timeout promise
+      console.log("Fetching feed data (Redux)...");
       const timeout = new Promise((_, reject) =>
         setTimeout(
           () =>
@@ -49,20 +60,16 @@ export default function Feed() {
       );
 
       const snapshot = (await Promise.race([getDocs(q), timeout])) as any;
-      console.log(`Snapshot received. Docs: ${snapshot.docs.length}`);
       const feedItems: FeedItem[] = [];
 
-      snapshot.forEach((doc) => {
-        const item = doc.data() as any;
-        // Debug Log
-        // console.log(`Doc ${doc.id}:`, item.Name, item.image_urls?.length);
+      snapshot.forEach((doc: any) => {
+        const item = doc.data();
 
         if (
           item.image_urls &&
           Array.isArray(item.image_urls) &&
           item.image_urls.length > 0
         ) {
-          // Flatten: One item per image
           item.image_urls.forEach((url: string, index: number) => {
             feedItems.push({
               id: doc.id,
@@ -75,30 +82,17 @@ export default function Feed() {
         }
       });
 
-      console.log(
-        `Parsed ${feedItems.length} feed items from ${snapshot.docs.length} docs.`,
-      );
-
-      if (feedItems.length === 0) {
-        console.warn("No images found in fetched documents!");
-        // potential fallback logic here?
-      }
-
-      // Shuffle using modern random sort (Schwartzian transform approximation for simple use case)
+      // Shuffle logic (same as before)
       const shuffled = feedItems
         .map((value) => ({ value, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ value }) => value);
 
-      setData(shuffled);
-    } catch (error) {
+      dispatch(fetchFeedSuccess(shuffled));
+    } catch (error: any) {
       console.error("Error fetching feed:", error);
-      Alert.alert(
-        "Feed Error",
-        "Could not load feed data. " + (error as any).message,
-      );
-    } finally {
-      setLoading(false);
+      dispatch(fetchFeedFailure(error.message));
+      Alert.alert("Feed Error", "Could not load feed. " + error.message);
     }
   };
 

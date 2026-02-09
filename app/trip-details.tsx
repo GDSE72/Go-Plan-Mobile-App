@@ -1,28 +1,19 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 import ResultsDisplay from "../components/ResultsDisplay";
 import { auth, db } from "../firebaseConfig";
-import { TravelPlan } from "../types";
+import { RootState } from "../store";
 
 export default function TripDetails() {
-  const params = useLocalSearchParams();
   const router = useRouter();
-
   const [isSaving, setIsSaving] = useState(false);
 
-  let travelPlan: TravelPlan | null = null;
-
-  if (params.plan) {
-    try {
-      travelPlan = JSON.parse(params.plan as string);
-    } catch (e) {
-      console.error("Failed to parse trip plan", e);
-    }
-  }
+  const travelPlan = useSelector((state: RootState) => state.trip.currentPlan);
 
   const handleSaveTrip = async () => {
     if (!travelPlan) return;
