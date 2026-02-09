@@ -58,6 +58,22 @@ npx expo start -c
 ```
 
 ---
+### 🔗 Latest EAS Build
+
+👉 https://expo.dev/accounts/ruwani425/projects/goPlan/builds/f2849ab7-01de-43dd-92ca-b20587d2095e
+
+### Initialize EAS in the project
+npx eas-cli init
+
+# Add environment secrets securely
+npx eas-cli secret:create --scope project \
+  --name EXPO_PUBLIC_FIREBASE_API_KEY \
+  --value "YOUR_VALUE_HERE"
+
+# Build Android preview APK
+npx eas-cli build -p android --profile preview
+
+
 
 ## 📸 Screenshots
 
