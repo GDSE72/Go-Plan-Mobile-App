@@ -62,12 +62,33 @@ Go-Plan is a smart travel companion app for exploring Sri Lanka. It combines a r
 
 ## 📸 Screenshots
 
-|                                Home Feed                                |                                 Trip Planner                                  |                                 Trip Details                                  |                                 User Profile                                  |
-| :---------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
-| <img src="./assets/screenshots/home.png" width="200" alt="Home Feed" /> | <img src="./assets/screenshots/planner.png" width="200" alt="Trip Planner" /> | <img src="./assets/screenshots/details.png" width="200" alt="Trip Details" /> | <img src="./assets/screenshots/profile.png" width="200" alt="User Profile" /> |
-|                         _Explore Destinations_                          |                              _Create Your Plan_                               |                               _View Itinerary_                                |                               _Manage Account_                                |
+## 📸 Screenshots
 
-_(Upload your screenshots to an `assets/screenshots` folder and update the paths above)_
+### Authentication
+
+|                                 Sign Up                                 |                                 Sign In                                 |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+| <img src="./assets/screenshots/signup.png" width="200" alt="Sign Up" /> | <img src="./assets/screenshots/signin.png" width="200" alt="Sign In" /> |
+
+### Discovery
+
+|                               Home (1)                                |                               Home (2)                                |                               Feed (1)                                |                               Feed (2)                                |                                    All Destinations                                    |
+| :-------------------------------------------------------------------: | :-------------------------------------------------------------------: | :-------------------------------------------------------------------: | :-------------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
+| <img src="./assets/screenshots/home1.png" width="160" alt="Home 1" /> | <img src="./assets/screenshots/home2.png" width="160" alt="Home 2" /> | <img src="./assets/screenshots/feed1.png" width="160" alt="Feed 1" /> | <img src="./assets/screenshots/feed2.png" width="160" alt="Feed 2" /> | <img src="./assets/screenshots/destinations.png" width="160" alt="All Destinations" /> |
+
+### Planning & Trips
+
+|                                Trip Plan                                |                              Trip Details (1)                               |                              Trip Details (2)                               |                                   Saved Trips                                    |
+| :---------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :------------------------------------------------------------------------------: |
+| <img src="./assets/screenshots/plan.png" width="180" alt="Trip Plan" /> | <img src="./assets/screenshots/details1.png" width="180" alt="Details 1" /> | <img src="./assets/screenshots/details2.png" width="180" alt="Details 2" /> | <img src="./assets/screenshots/saved_trips.png" width="180" alt="Saved Trips" /> |
+
+### User Profile
+
+|                                 Profile                                  |
+| :----------------------------------------------------------------------: |
+| <img src="./assets/screenshots/profile.png" width="200" alt="Profile" /> |
+
+_(Ensure your screenshots are named correctly in the `assets/screenshots` folder)_
 
 ## 🛠️ Data Management
 
