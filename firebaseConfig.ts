@@ -18,24 +18,36 @@ if (!firebaseConfig.apiKey) missingKeys.push("EXPO_PUBLIC_FIREBASE_API_KEY");
 if (!firebaseConfig.projectId) missingKeys.push("EXPO_PUBLIC_FIREBASE_PROJECT_ID");
 if (!process.env.EXPO_PUBLIC_GEMINI_API_KEY) missingKeys.push("EXPO_PUBLIC_GEMINI_API_KEY");
 
+
 if (missingKeys.length > 0) {
   console.error("❌ MISSING API KEYS:", missingKeys.join(", "));
-  console.error("Make sure you have a .env file and have restarted the metro bundler (npx expo start -c).");
+  // Prevent crash by not initializing with bad config
 } else {
   console.log("✅ Firebase & Gemini Config Loaded");
 }
 
-const app: FirebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+let app: FirebaseApp;
+let authAuth: any;
+let dbStore: Firestore;
+let functionsFunc: Functions;
 
-// Initialize Auth (Persistence handled automatically by default in newer SDKs or fallback to memory if needed)
-export const auth = getAuth(app);
-
-export const db: Firestore = getFirestore(app);
 try {
-  // @ts-ignore
-  db._settings.experimentalForceLongPolling = true;
+  if (missingKeys.length === 0) {
+    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+    authAuth = getAuth(app);
+    dbStore = getFirestore(app);
+    try {
+      // @ts-ignore
+      dbStore._settings.experimentalForceLongPolling = true;
+    } catch (ignore) { }
+    functionsFunc = getFunctions(app);
+  } else {
+    console.warn("Firebase not initialized due to missing keys.");
+  }
 } catch (error) {
-  // ignore
+  console.error("Firebase Initialization Error:", error);
 }
 
-export const functions: Functions = getFunctions(app);
+export const auth = authAuth;
+export const db = dbStore!;
+export const functions = functionsFunc!;

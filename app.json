@@ -11,11 +11,6 @@
     "ios": {
       "supportsTablet": true
     },
-    "extra": {
-      "eas": {
-        "projectId": "796014374644"
-      }
-    },
     "android": {
       "package": "com.goplan.goplan4880a",
       "adaptiveIcon": {
@@ -50,6 +45,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "f7948058-7e97-4e5c-bbe9-58a409367683"
+      }
+    },
+    "owner": "ruwani425"
   }
 }
