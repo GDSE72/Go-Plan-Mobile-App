@@ -4,6 +4,7 @@ import { collection, getDocs, limit, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   FlatList,
   Text,
@@ -37,27 +38,51 @@ export default function Feed() {
     try {
       const q = query(collection(db, "sri_lanka_travel_data"), limit(50));
 
-      const snapshot = await getDocs(q);
+      console.log("Fetching feed data...");
+      // Timeout promise
+      const timeout = new Promise((_, reject) =>
+        setTimeout(
+          () =>
+            reject(new Error("Request timed out. Check internet connection.")),
+          15000,
+        ),
+      );
+
+      const snapshot = (await Promise.race([getDocs(q), timeout])) as any;
+      console.log(`Snapshot received. Docs: ${snapshot.docs.length}`);
       const feedItems: FeedItem[] = [];
 
       snapshot.forEach((doc) => {
         const item = doc.data() as any;
-        if (item.image_urls && Array.isArray(item.image_urls)) {
+        // Debug Log
+        // console.log(`Doc ${doc.id}:`, item.Name, item.image_urls?.length);
+
+        if (
+          item.image_urls &&
+          Array.isArray(item.image_urls) &&
+          item.image_urls.length > 0
+        ) {
           // Flatten: One item per image
           item.image_urls.forEach((url: string, index: number) => {
             feedItems.push({
-              id: doc.id, // Use document ID specifically for navigation query
+              id: doc.id,
               uniqueId: `${doc.id}-${index}`,
               url: url,
-              name: item.Name,
+              name: item.Name || "Unknown Place",
               district: item.District || "Sri Lanka",
             });
           });
         }
-        // Also handle if no images but has a name (fallback image handled in render or logic)
-        // For feed, we generally want images, so strictly push if images exist or push with placeholder?
-        // Let's stick to existing logic but fix the ID mapping.
       });
+
+      console.log(
+        `Parsed ${feedItems.length} feed items from ${snapshot.docs.length} docs.`,
+      );
+
+      if (feedItems.length === 0) {
+        console.warn("No images found in fetched documents!");
+        // potential fallback logic here?
+      }
 
       // Shuffle using modern random sort (Schwartzian transform approximation for simple use case)
       const shuffled = feedItems
@@ -68,36 +93,44 @@ export default function Feed() {
       setData(shuffled);
     } catch (error) {
       console.error("Error fetching feed:", error);
+      Alert.alert(
+        "Feed Error",
+        "Could not load feed data. " + (error as any).message,
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const renderItem = ({ item }: { item: FeedItem }) => (
-    <TouchableOpacity
-      className="mb-4 bg-white rounded-2xl shadow-sm overflow-hidden"
-      style={{ width: COLUMN_WIDTH, height: COLUMN_WIDTH * 1.5 }} // Taller aspect for photos
-      onPress={() =>
-        router.push(
-          `/destination-details/${item.id}?mainImage=${encodeURIComponent(
-            item.url,
-          )}` as any,
-        )
-      }
-    >
-      <Image
-        source={{ uri: item.url }}
-        style={{ width: "100%", height: "100%" }}
-        contentFit="cover"
-        transition={500}
-      />
-      {/* Minimal Overlay */}
-      <View className="absolute bottom-0 w-full bg-gradient-to-t from-black/60 to-transparent p-3 pt-6">
-        <Text className="text-white font-bold text-xs" numberOfLines={1}>
-          {item.name}
-        </Text>
-      </View>
-    </TouchableOpacity>
+  // Optimize renderItem with useCallback to prevent re-creation
+  const renderFeedItem = React.useCallback(
+    ({ item }: { item: FeedItem }) => (
+      <TouchableOpacity
+        className="mb-4 bg-white rounded-2xl shadow-sm overflow-hidden"
+        style={{ width: COLUMN_WIDTH, height: COLUMN_WIDTH * 1.5 }}
+        onPress={() =>
+          router.push(
+            `/destination-details/${item.id}?mainImage=${encodeURIComponent(
+              item.url,
+            )}` as any,
+          )
+        }
+      >
+        <Image
+          source={{ uri: item.url }}
+          style={{ width: "100%", height: "100%" }}
+          contentFit="cover"
+          transition={200} // Reduced transition time
+          cachePolicy="memory-disk"
+        />
+        <View className="absolute bottom-0 w-full bg-gradient-to-t from-black/60 to-transparent p-3 pt-6">
+          <Text className="text-white font-bold text-xs" numberOfLines={1}>
+            {item.name}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    ),
+    [],
   );
 
   return (
@@ -114,7 +147,7 @@ export default function Feed() {
       ) : (
         <FlatList
           data={data}
-          renderItem={renderItem}
+          renderItem={renderFeedItem}
           keyExtractor={(item) => item.uniqueId}
           numColumns={2}
           columnWrapperStyle={{
@@ -123,6 +156,10 @@ export default function Feed() {
           }}
           contentContainerStyle={{ paddingBottom: 20 }}
           showsVerticalScrollIndicator={false}
+          initialNumToRender={6}
+          windowSize={5}
+          maxToRenderPerBatch={5}
+          removeClippedSubviews={true}
           ListEmptyComponent={
             <View className="flex-1 justify-center items-center mt-20">
               <Text className="text-gray-400">No images found.</Text>

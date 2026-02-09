@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { doc, writeBatch } from "firebase/firestore";
+import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import * as fs from 'fs';
 import * as path from 'path';
 import { db } from "./firebaseConfig";
@@ -59,11 +59,48 @@ const normalizeForLookup = (name: string) => {
   return name.toLowerCase().trim().replace(/[^a-z0-9]/g, "");
 };
 
+const deleteCollection = async (collectionPath: string) => {
+  console.log(`Deleting existing documents in ${collectionPath}...`);
+  const collectionRef = collection(db, collectionPath);
+  const querySnapshot = await getDocs(collectionRef);
+
+  if (querySnapshot.empty) {
+    console.log(`Collection ${collectionPath} is already empty.`);
+    return;
+  }
+
+  const docs = querySnapshot.docs;
+  console.log(`Found ${docs.length} documents to delete.`);
+
+  const BATCH_SIZE = 400;
+  let batchCount = 0;
+
+  for (let i = 0; i < docs.length; i += BATCH_SIZE) {
+    const batch = writeBatch(db);
+    const chunk = docs.slice(i, i + BATCH_SIZE);
+
+    chunk.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+    batchCount++;
+    console.log(`Deleted batch ${batchCount} (${Math.min(i + BATCH_SIZE, docs.length)}/${docs.length})`);
+  }
+  console.log("Deletion complete.");
+};
+
 async function upload(): Promise<void> {
   try {
+    console.log("Starting upload process...");
+
+    // Delete existing data
+    await deleteCollection("sri_lanka_travel_data");
+
     console.log("Starting upload...");
 
     const filePath = path.join(__dirname, 'Big_Sri_Lanka_Travel_Data.json');
+    // const filePath = path.join(__dirname, 'Small_Big_Sri_Lanka_Travel_Data.json');
     if (!fs.existsSync(filePath)) {
       throw new Error(`File not found: ${filePath}`);
     }

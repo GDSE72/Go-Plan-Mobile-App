@@ -5,11 +5,15 @@ import { TravelPlan } from "../types";
 interface ResultsDisplayProps {
   travelPlan: TravelPlan;
   onPlanAnother: () => void;
+  onSave: () => void;
+  isSaving: boolean;
 }
 
 export default function ResultsDisplay({
   travelPlan,
   onPlanAnother,
+  onSave,
+  isSaving,
 }: ResultsDisplayProps) {
   return (
     <ScrollView
@@ -164,6 +168,26 @@ export default function ResultsDisplay({
         />
         <Text className="text-teal-600 font-bold text-base">
           Plan Another Trip
+        </Text>
+      </TouchableOpacity>
+
+      {/* 5. Save/Favorite Button */}
+      <TouchableOpacity
+        className={`bg-teal-600 rounded-xl py-4 flex-row items-center justify-center mb-10 ${
+          isSaving ? "opacity-70" : ""
+        }`}
+        onPress={onSave}
+        disabled={isSaving}
+        activeOpacity={0.7}
+      >
+        <MaterialCommunityIcons
+          name="heart-outline"
+          size={22}
+          color="white"
+          style={{ marginRight: 8 }}
+        />
+        <Text className="text-white font-bold text-base">
+          {isSaving ? "Saving..." : "Save to Favorites"}
         </Text>
       </TouchableOpacity>
     </ScrollView>

@@ -1,14 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { addDoc, collection } from "firebase/firestore";
+import React, { useState } from "react";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ResultsDisplay from "../components/ResultsDisplay";
+import { auth, db } from "../firebaseConfig";
 import { TravelPlan } from "../types";
 
 export default function TripDetails() {
   const params = useLocalSearchParams();
   const router = useRouter();
+
+  const [isSaving, setIsSaving] = useState(false);
 
   let travelPlan: TravelPlan | null = null;
 
@@ -19,6 +23,34 @@ export default function TripDetails() {
       console.error("Failed to parse trip plan", e);
     }
   }
+
+  const handleSaveTrip = async () => {
+    if (!travelPlan) return;
+
+    const user = auth.currentUser;
+    if (!user) {
+      Alert.alert("Login Required", "You must be logged in to save trips.");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await addDoc(collection(db, "user_trips"), {
+        userId: user.uid,
+        tripDetails: travelPlan, // Save the entire plan object
+        createdAt: new Date(),
+        summary: travelPlan.summary, // Duplicate for easier list display
+        destination: travelPlan.itinerary[0]?.location || "Sri Lanka Trip",
+      });
+
+      Alert.alert("Success", "Trip saved to favorites!");
+    } catch (error) {
+      console.error("Error saving trip:", error);
+      Alert.alert("Error", "Failed to save trip. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (!travelPlan) {
     return (
@@ -47,6 +79,8 @@ export default function TripDetails() {
       <ResultsDisplay
         travelPlan={travelPlan}
         onPlanAnother={() => router.replace("/home")}
+        onSave={handleSaveTrip}
+        isSaving={isSaving}
       />
     </SafeAreaView>
   );

@@ -103,7 +103,10 @@ export default function App() {
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : "Unknown error";
       console.error("Error:", errorMessage);
-      Alert.alert("Planning Failed", "Could not connect to the AI service.");
+      Alert.alert(
+        "Planning Failed",
+        "Could not connect to the AI service. Details: " + errorMessage,
+      );
     } finally {
       setLoading(false);
     }

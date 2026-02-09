@@ -63,7 +63,8 @@ export default function HeaderRain() {
     id: i,
     size: Math.random() * 20 + 5, // Smaller sizes for header
     startX: Math.random() * 300, // Random X within box width
-    color: i % 2 === 0 ? "#10B981" : "#34D399", // Green-500 and Emerald-400
+    color:
+      i % 2 === 0 ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.4)", // Snow white transparent
     delay: Math.random() * 2000,
     duration: 3000 + Math.random() * 2000,
   }));

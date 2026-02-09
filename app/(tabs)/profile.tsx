@@ -79,19 +79,25 @@ const Profile = () => {
         </View>
 
         <View className="bg-gray-50 rounded-2xl p-4 mb-20 space-y-4">
-          <TouchableOpacity className="flex-row items-center justify-between p-3">
+          <TouchableOpacity
+            onPress={() => router.push("/my-trips")}
+            className="flex-row items-center justify-between p-3"
+          >
             <View className="flex-row items-center">
               <View className="w-10 h-10 bg-white items-center justify-center rounded-full mr-3 shadow-sm">
-                <Ionicons name="settings-outline" size={20} color="#64748B" />
+                <Ionicons name="heart-outline" size={20} color="#64748B" />
               </View>
-              <Text className="text-gray-700 font-medium">Settings</Text>
+              <Text className="text-gray-700 font-medium">My Saved Trips</Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color="#CBD5E1" />
           </TouchableOpacity>
 
           <View className="h-[1px] bg-gray-200" />
 
-          <TouchableOpacity className="flex-row items-center justify-between p-3">
+          <TouchableOpacity
+            onPress={() => router.push("/help-support")}
+            className="flex-row items-center justify-between p-3"
+          >
             <View className="flex-row items-center">
               <View className="w-10 h-10 bg-white items-center justify-center rounded-full mr-3 shadow-sm">
                 <Ionicons

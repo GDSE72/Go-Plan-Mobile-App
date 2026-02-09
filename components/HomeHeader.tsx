@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { User } from "firebase/auth";
@@ -62,27 +62,31 @@ export default function HomeHeader() {
       </View>
 
       {/* Styled Intro Box */}
-      <View className="bg-white p-5 rounded-[24px] shadow-sm border border-gray-100 mt-1 relative overflow-hidden">
+      <View className="bg-teal-600 p-5 rounded-[24px] shadow-sm border border-teal-500 mt-1 relative overflow-hidden">
         <HeaderRain />
         <View className="flex-row justify-between items-start">
           <View>
-            <Text className="text-gray-400 font-medium text-sm mb-1 uppercase tracking-wider">
+            <Text className="text-teal-100 font-medium text-sm mb-1 uppercase tracking-wider">
               {getGreeting()},
             </Text>
             <View className="flex-row items-center">
-              <Text className="text-2xl font-bold text-gray-900 mr-2">
+              <Text className="text-2xl font-bold text-white mr-2">
                 {displayName}
               </Text>
-              <Ionicons name="hand-left" size={24} color="#F59E0B" />
+              <MaterialCommunityIcons
+                name="hand-wave"
+                size={28}
+                color="#FFD700"
+              />
             </View>
-            <Text className="text-lg text-gray-500 mt-1">
+            <Text className="text-lg text-teal-50 mt-1">
               Ready to explore{" "}
-              <Text className="text-teal-600 font-bold">Sri Lanka?</Text>
+              <Text className="text-white font-bold">Sri Lanka?</Text>
             </Text>
           </View>
-          {/* Decorative Icon Circle */}
-          <View className="bg-teal-50 h-12 w-12 rounded-full items-center justify-center border border-teal-100">
-            <Ionicons name="compass-outline" size={24} color="#0D9488" />
+          {/* Decorative Icon Circle - White with Teal Icon */}
+          <View className="bg-white/20 h-12 w-12 rounded-full items-center justify-center border border-white/30">
+            <Ionicons name="compass-outline" size={24} color="white" />
           </View>
         </View>
       </View>

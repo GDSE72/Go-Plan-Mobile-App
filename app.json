@@ -11,7 +11,13 @@
     "ios": {
       "supportsTablet": true
     },
+    "extra": {
+      "eas": {
+        "projectId": "796014374644"
+      }
+    },
     "android": {
+      "package": "com.goplan.goplan4880a",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

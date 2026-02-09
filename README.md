@@ -1,50 +1,93 @@
-# Welcome to your Expo app 👋
+# Go-Plan Mobile App 🌍✈️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Go-Plan is a smart travel companion app for exploring Sri Lanka. It combines a rich visual feed of destinations with an AI-powered trip planner to help users create personalized itineraries.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+- **Explore Feed**: Discover beautiful destinations (Kandy, Galle, Ella, etc.) with curated images.
+- **AI Trip Planner**: Generate custom trip plans based on your preferences, budget, and duration.
+- **User Authentication**: Secure login via Email and Google Sign-In (Firebase Auth).
+- **Rich Imagery**: Dynamic image sources ensuring every location has a relevant photo.
+- **Trip Details**: View detailed itineraries with maps, activities, and local tips.
 
-   ```bash
-   npm install
-   ```
+## 🚀 Getting Started
 
-2. Start the app
+### Prerequisites
 
-   ```bash
-   npx expo start
-   ```
+- Node.js (v18+)
+- Expo CLI (`npm install -g expo-cli`)
+- Android Studio / Xcode (for simulators) or Expo Go app (for physical devices)
 
-In the output, you'll find options to open the app in a
+### Installation
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1.  **Clone the repository:**
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+    ```bash
+    git clone <repository-url>
+    cd Go-Plan-Mobile-App
+    ```
 
-## Get a fresh project
+2.  **Install dependencies:**
 
-When you're ready, run:
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Setup:**
+    Create a `.env` file in the root directory and add your Firebase and API keys:
+
+    ```env
+    EXPO_PUBLIC_FIREBASE_API_KEY=your_api_key
+    EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+    EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+    EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project_id.firebasestorage.app
+    EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+    EXPO_PUBLIC_FIREBASE_APP_ID=your_app_id
+    EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID=your_google_client_id
+    EXPO_PUBLIC_GEMINI_API_KEY=your_gemini_api_key
+    ```
+
+4.  **Run the App:**
+
+    ```bash
+    npx expo start
+    ```
+
+    - Press `a` for Android.
+    - Press `w` for Web.
+    - Scan the QR code with Expo Go.
+
+## 📸 Screenshots
+
+|                                Home Feed                                |                                 Trip Planner                                  |                                 Trip Details                                  |                                 User Profile                                  |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
+| <img src="./assets/screenshots/home.png" width="200" alt="Home Feed" /> | <img src="./assets/screenshots/planner.png" width="200" alt="Trip Planner" /> | <img src="./assets/screenshots/details.png" width="200" alt="Trip Details" /> | <img src="./assets/screenshots/profile.png" width="200" alt="User Profile" /> |
+|                         _Explore Destinations_                          |                              _Create Your Plan_                               |                               _View Itinerary_                                |                               _Manage Account_                                |
+
+_(Upload your screenshots to an `assets/screenshots` folder and update the paths above)_
+
+## 🛠️ Data Management
+
+This project uses Firestore for data storage.
+
+**Upload Data Scripts:**
+To seed the database with travel data and images:
 
 ```bash
-npm run reset-project
+# Upload Feed Data (Big_Sri_Lanka_Travel_Data.json)
+node -r dotenv/config uploadData.js
+
+# Upload Trip Planner Data (All_Travel_Data_With_Images.json)
+node -r dotenv/config uploadTripData.js
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📂 Project Structure
 
-## Learn more
+- `app/`: Expo Router pages and screens.
+- `components/`: Reusable UI components.
+- `processImages.ts`: Logic for matching images to cities (Exhaustive Exclusion).
+- `uploadData.ts` / `uploadTripData.ts`: Database seeding scripts.
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Built with ❤️ using Expo, React Native, Firebase, and Gemini AI.

@@ -73,8 +73,11 @@ export default function FeaturedDestinations() {
         horizontal
         data={destinations}
         showsHorizontalScrollIndicator={false}
+        initialNumToRender={5}
+        windowSize={3}
+        maxToRenderPerBatch={5}
         contentContainerStyle={{ paddingHorizontal: 24 }}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(item) => item.id || item.Name}
         renderItem={({ item }) => (
           <TouchableOpacity
             className="mr-6 w-72 bg-white rounded-[24px] shadow-sm border border-gray-100 overflow-hidden"
