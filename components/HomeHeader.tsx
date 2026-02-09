@@ -11,7 +11,7 @@ export default function HomeHeader() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser: any) => {
       setUser(currentUser);
     });
     return () => unsubscribe();
