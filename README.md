@@ -60,7 +60,7 @@ npx expo start -c
 ---
 ### 🔗 Latest EAS Build
 
-👉 https://expo.dev/accounts/ruwani425/projects/goPlan/builds/f2849ab7-01de-43dd-92ca-b20587d2095e
+👉 https://expo.dev/accounts/ruwani425/projects/goPlan/builds/a8baaceb-a112-4e9c-a57a-6207469da357
 
 ### Initialize EAS in the project
 npx eas-cli init

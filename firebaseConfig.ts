@@ -1,5 +1,7 @@
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { FirebaseApp, getApp, getApps, initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+// @ts-ignore
+import { getAuth, getReactNativePersistence, initializeAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
 import { Functions, getFunctions } from 'firebase/functions';
 
@@ -20,10 +22,10 @@ if (!process.env.EXPO_PUBLIC_GEMINI_API_KEY) missingKeys.push("EXPO_PUBLIC_GEMIN
 
 
 if (missingKeys.length > 0) {
-  console.error("❌ MISSING API KEYS:", missingKeys.join(", "));
+  console.error("MISSING API KEYS:", missingKeys.join(", "));
   // Prevent crash by not initializing with bad config
 } else {
-  console.log("✅ Firebase & Gemini Config Loaded");
+  console.log("Firebase & Gemini Config Loaded");
 }
 
 let app: FirebaseApp;
@@ -33,8 +35,19 @@ let functionsFunc: Functions;
 
 try {
   if (missingKeys.length === 0) {
-    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-    authAuth = getAuth(app);
+    if (getApps().length === 0) {
+      app = initializeApp(firebaseConfig);
+      // Initialize Auth with Persistence only for new app instance
+      // @ts-ignore
+      authAuth = initializeAuth(app, {
+        persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+      });
+    } else {
+      app = getApp();
+      // For existing app, auth should already be initialized
+      authAuth = getAuth(app);
+    }
+
     dbStore = getFirestore(app);
     try {
       // @ts-ignore
@@ -46,6 +59,12 @@ try {
   }
 } catch (error) {
   console.error("Firebase Initialization Error:", error);
+}
+
+if (authAuth) {
+  console.log("Firebase Auth initialized successfully.");
+} else {
+  console.error("Firebase Auth FAILED to initialize.");
 }
 
 export const auth = authAuth;
